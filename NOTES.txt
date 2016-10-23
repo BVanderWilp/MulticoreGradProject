@@ -1,0 +1,19 @@
+Will
+The basic monitor just clones the whole object as we discussed
+
+I do not really know how to implement Wait, Notify, and NotifyAll
+They could probably be implemented using conditions of the reentrant lock
+but I dont know how reverting the object gets handled in this context.
+
+The class currently compiles, but I have not tested for functionallity
+
+Currently, all the references to Object could just be replaced with generics
+but this would not be extendable to the partitioned implementation of this lock
+(where there is a list of objects as opposed to just one)
+
+I am basically just using the reentrant lock as a semaphore
+
+all the functions that have "if(Thread.currentThread().equals(owner))" should 
+probably throw an illegal monitor state exception. I am just leaving it out
+because, for testing, dont want to have to make a bunch of try-catch blocks
+
