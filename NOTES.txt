@@ -17,3 +17,22 @@ all the functions that have "if(Thread.currentThread().equals(owner))" should
 probably throw an illegal monitor state exception. I am just leaving it out
 because, for testing, dont want to have to make a bunch of try-catch blocks
 
+
+-------------
+Brad
+
+I'm thinking about how to implement wait, notify, and notifyAll.
+Consider a BasicMonitor controlling a String S. S starts as "".
+Thread t1 acquires the monitor, changes S to "foo", and waits.
+Thread t2 now acquires S, changes it to "bar", but then decides to abort.
+I imagine t2 would revert S back to "foo", notify t1, and terminate itself.
+Next say t1 decides to abort as well. S should be changed back to "".
+
+This scenario makes me think that we need potentially need to track multiple revertStates.
+This could be implemented with a Stack, but that would only work if
+we could be sure that waits and notifies worked as a queue.
+Instead, I think I'll try implementing it as a Map of Threads to Objects (states).
+
+I've implemented a wait, notify, and notifyAll as such.
+I've also added BasicMonitorMain1 as a simple test (basically the scenario above).
+I hope that all makes sense and I don't have any flaws in my logic.
