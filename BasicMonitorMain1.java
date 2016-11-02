@@ -1,7 +1,5 @@
 
 public class BasicMonitorMain1 {
-	static String foo = "";
-	static BasicMonitor myMonitor = new BasicMonitor(foo);
 	
 	/**
 	 * Acquires lock, writes foo, waits, then aborts
@@ -9,6 +7,7 @@ public class BasicMonitorMain1 {
 	 *
 	 */
 	public static class ThreadA extends Thread{
+		public BasicMonitor myMonitor;
 		public void run(){
 			myMonitor.Aquire();
 			myMonitor.Write("foo");
@@ -31,6 +30,7 @@ public class BasicMonitorMain1 {
 	 *
 	 */
 	public static class ThreadB extends Thread{
+		public BasicMonitor myMonitor;
 		public void run(){
 			myMonitor.Aquire();
 			myMonitor.Write("bar");
@@ -44,9 +44,13 @@ public class BasicMonitorMain1 {
 	
 	public static void main(String...args) throws InterruptedException
 	{
+		String foo = "";
+		BasicMonitor myMonitor = new BasicMonitor(foo);
 		System.out.println("String begins as: " + myMonitor.read());
 		ThreadA tA = new ThreadA();
 		ThreadB tB = new ThreadB();
+		tA.myMonitor = myMonitor;
+		tB.myMonitor = myMonitor;
 		tA.start();
 		//make sure first thread acquires lock first
 		try {

@@ -36,3 +36,18 @@ Instead, I think I'll try implementing it as a Map of Threads to Objects (states
 I've implemented a wait, notify, and notifyAll as such.
 I've also added BasicMonitorMain1 as a simple test (basically the scenario above).
 I hope that all makes sense and I don't have any flaws in my logic.
+
+---------------
+Brad 11/1/16
+
+I made some more formal tests for our BasicMonitor.
+I realize that, since we are only doing a shallow copy of the monitored object,
+the user would need to re-create the object they would need to use for every update.
+I believe performing a deep copy in Java is non-trivial.
+Perhaps this could be the next step towards improving our system. 
+
+Other ways to improve our system would be to have write methods
+throw an exception if they are executed without the lock.
+
+Finally, I wonder if we should allow others to read the monitored object
+without the lock.

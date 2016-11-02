@@ -2,7 +2,7 @@
 import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
-class BasicMonitor {
+public class BasicMonitor {
 
     private ReentrantLock lock;
     private Thread owner;
