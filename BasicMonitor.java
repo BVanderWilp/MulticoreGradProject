@@ -1,4 +1,9 @@
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -8,7 +13,7 @@ public class BasicMonitor {
     private Thread owner;
     private Object currentState;
     private HashMap<Thread, Object> revertStates;
-
+    
     public BasicMonitor(Object obj){
         currentState = obj;
         revertStates = new HashMap<Thread, Object>();
@@ -19,7 +24,7 @@ public class BasicMonitor {
     public void Aquire(){
         lock.lock();
         owner = Thread.currentThread();
-        revertStates.put(owner, null);
+        revertStates.put(owner, deepCopy(currentState));
     }
 
     public void Release(){
@@ -40,7 +45,7 @@ public class BasicMonitor {
     public void Write(Object obj){
         if(Thread.currentThread().equals(owner)){
             if(revertStates.get(owner) == null){
-                revertStates.put(owner, currentState);
+                revertStates.put(owner, deepCopy(currentState));
             }
             currentState = obj;
         }
@@ -108,5 +113,31 @@ public class BasicMonitor {
         		lock.notifyAll();
         	}
         }
+    }
+    
+    public static Object deepCopy(Object orig)
+    {
+        Object obj = null;
+        try {
+            // Write the object out to a byte array
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream out = new ObjectOutputStream(bos);
+            out.writeObject(orig);
+            out.flush();
+            out.close();
+
+            // Make an input stream from the byte array and read
+            // a copy of the object back in.
+            ObjectInputStream in = new ObjectInputStream(
+                new ByteArrayInputStream(bos.toByteArray()));
+            obj = in.readObject();
+        }
+        catch(IOException e) {
+            e.printStackTrace();
+        }
+        catch(ClassNotFoundException cnfe) {
+            cnfe.printStackTrace();
+        }
+        return obj;
     }
 }

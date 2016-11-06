@@ -156,13 +156,12 @@ public class BasicMonitorTest {
 	
 	public static class Thread5A extends Thread{
 		public BasicMonitor myMonitor;
-		public ArrayList<String> fooList;
 		public void run(){
 			myMonitor.Aquire();
+			ArrayList<String> fooList = (ArrayList<String>) myMonitor.read();
 			fooList.add("bar2");
 			myMonitor.Write(fooList);
 			assertEquals(((ArrayList<String>) myMonitor.read()).size(), 2);
-			myMonitor.Release();
 			myMonitor.Abort();
 			assertTrue(false);
 			
@@ -172,7 +171,6 @@ public class BasicMonitorTest {
 	//main adds "bar1" to monitored list
 	//thread adds "bar2", aborts
 	//main checks that list is of size 1
-	//currently fails because we are not using a deep copy of the object
 	@Test public void Test5() throws InterruptedException
 	{
 		ArrayList<String> fooList = new ArrayList<String>();
@@ -185,12 +183,53 @@ public class BasicMonitorTest {
 		
 		Thread5A tA = new Thread5A();
 		tA.myMonitor = myMonitor;
-		tA.fooList = fooList;
 		tA.start();
 		tA.join();
 		
 		myMonitor.Aquire();
 		assertEquals(((ArrayList<String>) myMonitor.read()).size(), 1);
+		myMonitor.Release();
+	}
+	
+	public static class Thread6A extends Thread{
+		public BasicMonitor myMonitor;
+		public void run(){
+			myMonitor.Aquire();
+			ArrayList<ArrayList<String>> fooList = (ArrayList<ArrayList<String>>) myMonitor.read();
+			ArrayList<String> innerList = fooList.get(0);
+			innerList.add("BAR2");
+			myMonitor.Write(fooList);
+			assertEquals(((ArrayList<ArrayList<String>>) myMonitor.read()).size(), 1);
+			assertEquals(((ArrayList<ArrayList<String>>) myMonitor.read()).get(0).size(), 1);
+			myMonitor.Abort();
+			assertTrue(false);
+			
+		}
+	}
+	
+	//fooList is a list of lists of strings
+	//main adds an empty list
+	//thread adds an element to list0, aborts
+	//main checks that list0 is empty
+	@Test public void Test6() throws InterruptedException
+	{
+		ArrayList<ArrayList<String>> fooList = new ArrayList<ArrayList<String>>();
+		BasicMonitor myMonitor = new BasicMonitor(fooList);
+		myMonitor.Aquire();
+		fooList.add(new ArrayList<String>());
+		myMonitor.Write(fooList);
+		assertEquals(((ArrayList<ArrayList<String>>) myMonitor.read()).size(), 1);
+		assertEquals(((ArrayList<ArrayList<String>>) myMonitor.read()).get(0).size(), 0);
+		myMonitor.Release();
+		
+		Thread6A tA = new Thread6A();
+		tA.myMonitor = myMonitor;
+		tA.start();
+		tA.join();
+		
+		myMonitor.Aquire();
+		assertEquals(((ArrayList<ArrayList<String>>) myMonitor.read()).size(), 1);
+		assertEquals(((ArrayList<ArrayList<String>>) myMonitor.read()).get(0).size(), 0);
 		myMonitor.Release();
 	}
 }

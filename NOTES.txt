@@ -51,3 +51,17 @@ throw an exception if they are executed without the lock.
 
 Finally, I wonder if we should allow others to read the monitored object
 without the lock.
+
+----------------
+Brad 11/6/16
+
+I've used a deep copy technique I found at http://javatechniques.com/blog/faster-deep-copies-of-java-objects/
+
+This allows us to keep track of other objects.
+To make this work I've made it so that a deep copy of the object is made when the lock is first acquired.
+I think this is something we've wanted to avoid, so maybe we can figure out how to improve this in the future.
+Also, I'm a little sketchy on whether or not the "Write" method is necessary at this point anymore.
+If not, I would like the idea of making this simpler and more like a regular monitor.
+That might also make it easy to test on a big system.
+
+----------------
