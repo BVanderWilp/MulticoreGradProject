@@ -93,7 +93,9 @@ public class BasicMonitorTest {
 	{
 		String foo = "";
 		BasicMonitor myMonitor = new BasicMonitor(foo);
-		assertEquals(myMonitor.read(), null);
+		myMonitor.Aquire();
+		assertEquals(myMonitor.read(), "");
+		myMonitor.Release();
 		Thread2A tA = new Thread2A();
 		tA.myMonitor = myMonitor;
 		tA.start();
@@ -104,16 +106,13 @@ public class BasicMonitorTest {
 	}
 	
 	//Cannot write without acquiring first
-	@Test public void Test3() throws InterruptedException
+	@Test(expected=IllegalMonitorStateException.class)
+	public void Test3() throws InterruptedException
 	{
 		String foo = "";
 		BasicMonitor myMonitor = new BasicMonitor(foo);
 		
 		myMonitor.Write("foo");
-		
-		myMonitor.Aquire();
-		assertEquals(myMonitor.read(), "");
-		myMonitor.Release();
 		
 	}
 	

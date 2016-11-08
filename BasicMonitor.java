@@ -33,6 +33,10 @@ public class BasicMonitor {
         	owner = null;
             lock.unlock();
         }
+        else
+        {
+        	throw new IllegalMonitorStateException();
+        }
     }
 
     /**
@@ -49,13 +53,20 @@ public class BasicMonitor {
             }
             currentState = obj;
         }
+        else
+        {
+        	throw new IllegalMonitorStateException();
+        }
     }
 
     public Object read(){
         if(Thread.currentThread().equals(owner)){
             return currentState;
         }
-        return null;
+        else
+        {
+        	throw new IllegalMonitorStateException();
+        }
     }
 
     public void Abort(){
@@ -65,6 +76,10 @@ public class BasicMonitor {
             }
             Release();
             Thread.currentThread().stop();
+        }
+        else
+        {
+        	throw new IllegalMonitorStateException();
         }
     }
 
@@ -89,6 +104,10 @@ public class BasicMonitor {
 	        	owner = Thread.currentThread();	//synchronized block prevents race condition
         	}
         }
+        else
+        {
+        	throw new IllegalMonitorStateException();
+        }
     }
 
     /**
@@ -100,6 +119,10 @@ public class BasicMonitor {
         	{
         		lock.notify();
         	}
+        }
+        else
+        {
+        	throw new IllegalMonitorStateException();
         }
     }
 
@@ -113,9 +136,13 @@ public class BasicMonitor {
         		lock.notifyAll();
         	}
         }
+        else
+        {
+        	throw new IllegalMonitorStateException();
+        }
     }
     
-    public static Object deepCopy(Object orig)
+    private static Object deepCopy(Object orig)
     {
         Object obj = null;
         try {
