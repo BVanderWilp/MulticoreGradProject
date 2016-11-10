@@ -31,7 +31,7 @@ public class BasicMonitorPerformanceTests {
 		long end = System.nanoTime();
 		long endmem = Runtime.getRuntime().freeMemory();
 		System.out.printf("Time for small abort: %dms\n", (end - start) / (1000000));
-		System.out.printf("Memory used in Small Normal Increment: %d kB\n", (startmem - endmem) / 1000);
+		System.out.printf("Memory used in Small Abort: %d kB\n", (startmem - endmem) / 1000);
 	}
 
 	public static class MediumAbortThread extends Thread {
@@ -63,7 +63,7 @@ public class BasicMonitorPerformanceTests {
 		long end = System.nanoTime();
 		long endmem = Runtime.getRuntime().freeMemory();
 		System.out.printf("Time for medium abort: %dms\n", (end - start) / (1000000));
-		System.out.printf("Memory used in Small Normal Increment: %d kB\n", (startmem - endmem) / 1000);
+		System.out.printf("Memory used in Medium Abort: %d kB\n", (startmem - endmem) / 1000);
 	}
 
 	public static class LargeAbortThread extends Thread {
@@ -97,7 +97,7 @@ public class BasicMonitorPerformanceTests {
 		long end = System.nanoTime();
 		long endmem = Runtime.getRuntime().freeMemory();
 		System.out.printf("Time for large abort: %dms\n", (end - start) / (1000000));
-		System.out.printf("Memory used in Small Normal Increment: %d kB\n", (startmem - endmem) / 1000);
+		System.out.printf("Memory used in Large Abort: %d kB\n", (startmem - endmem) / 1000);
 	}
 
 	public static class NormalIncrementThread extends Thread {
