@@ -65,3 +65,12 @@ If not, I would like the idea of making this simpler and more like a regular mon
 That might also make it easy to test on a big system.
 
 ----------------
+Brad 11/9/16
+
+I've added some performance tests.
+One set of tests has our monitor abort with objects of various sizes.
+Another set of tests does some increments using both regular monitors and our monitors.
+
+The output of memory usage sometimes shows negative numbers.
+I'm wondering if that has to do with Java's garbage collector.
+We might have to check out some better way to measure memory usage.
