@@ -48,9 +48,9 @@ public class BasicMonitor {
      */
     public void Write(Object obj){
         if(Thread.currentThread().equals(owner)){
-            if(revertStates.get(owner) == null){
-                revertStates.put(owner, deepCopy(currentState));
-            }
+//            if(revertStates.get(owner) == null){
+//                revertStates.put(owner, deepCopy(currentState));
+//            }
             currentState = obj;
         }
         else
