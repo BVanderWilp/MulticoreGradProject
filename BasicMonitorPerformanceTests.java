@@ -7,7 +7,7 @@ public class BasicMonitorPerformanceTests {
 
 		public void run() {
 			myMonitor.Aquire();
-			// myMonitor.Write(new Object());
+			myMonitor.Write(new Object());
 			myMonitor.Abort();
 		}
 	}
@@ -39,7 +39,7 @@ public class BasicMonitorPerformanceTests {
 
 		public void run() {
 			myMonitor.Aquire();
-			// myMonitor.Write(new Object());
+			myMonitor.Write(new Object());
 			myMonitor.Abort();
 		}
 	}
@@ -71,7 +71,7 @@ public class BasicMonitorPerformanceTests {
 
 		public void run() {
 			myMonitor.Aquire();
-			// myMonitor.Write(new Object());
+			myMonitor.Write(new Object());
 			myMonitor.Abort();
 		}
 	}
