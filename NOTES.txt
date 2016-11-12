@@ -74,3 +74,15 @@ Another set of tests does some increments using both regular monitors and our mo
 The output of memory usage sometimes shows negative numbers.
 I'm wondering if that has to do with Java's garbage collector.
 We might have to check out some better way to measure memory usage.
+
+----------------
+Brad 11/11/16
+
+I added an alternate version of the monitor.
+Where the original monitor created a deep copy for the revertstate upon acquiring,
+monitorV2 creates the revertstate upon writing.
+The issue here is that a process would potentially read an object (say, an ArrayList),
+change the object, and then call Write.
+When this happens, the changed object would be saved as the revertstate, not the original.
+To prevent this, I've made it so that a deep copy is made for the revertstate
+upon the first write OR read for every acquire session.
