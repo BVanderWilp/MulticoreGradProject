@@ -141,6 +141,33 @@ public class BasicMonitorV2PerformanceTests {
 	}
 
 	/**
+	 * 10 threads using standard monitor to increment to a small number
+	 * @throws InterruptedException
+	 */
+	public static void MediumNormalIncrement() throws InterruptedException {
+		long startmem = Runtime.getRuntime().freeMemory();
+		ArrayList<NormalIncrementThread> arr = new ArrayList<NormalIncrementThread>();
+		Integer P = new Integer(0);
+		for (int i = 0; i < 10; i++) {
+			NormalIncrementThread t = new NormalIncrementThread();
+			t.P = P;
+			t.max = 100000;
+			arr.add(t);
+		}
+		long start = System.nanoTime();
+		for (NormalIncrementThread t : arr) {
+			t.start();
+		}
+		for (NormalIncrementThread t : arr) {
+			t.join();
+		}
+		long end = System.nanoTime();
+		long endmem = Runtime.getRuntime().freeMemory();
+		System.out.printf("Time for Medium Normal Increment: %dms\n", (end - start) / (1000000));
+		System.out.printf("Memory used in Medium Normal Increment: %d kB\n", (startmem - endmem) / 1000);
+	}
+	
+	/**
 	 * 10 threads using standard monitor to increment to a large number
 	 * @throws InterruptedException
 	 */
@@ -215,6 +242,33 @@ public class BasicMonitorV2PerformanceTests {
 	}
 	
 	/**
+	 * 10 threads using our monitor to increment to a small number
+	 * @throws InterruptedException
+	 */
+	public static void MediumCustomIncrement() throws InterruptedException {
+		long startmem = Runtime.getRuntime().freeMemory();
+		ArrayList<CustomIncrementThread> arr = new ArrayList<CustomIncrementThread>();
+		BasicMonitorV2 P = new BasicMonitorV2(new Integer(0));
+		for (int i = 0; i < 10; i++) {
+			CustomIncrementThread t = new CustomIncrementThread();
+			t.P = P;
+			t.max = 100000;
+			arr.add(t);
+		}
+		long start = System.nanoTime();
+		for (CustomIncrementThread t : arr) {
+			t.start();
+		}
+		for (CustomIncrementThread t : arr) {
+			t.join();
+		}
+		long end = System.nanoTime();
+		long endmem = Runtime.getRuntime().freeMemory();
+		System.out.printf("Time for Medium Custom Increment: %dms\n", (end - start) / (1000000));
+		System.out.printf("Memory used in Medium Custom Increment: %d kB\n", (startmem - endmem) / 1000);
+	}
+	
+	/**
 	 * 10 threads using our monitor to increment to a large number
 	 * @throws InterruptedException
 	 */
@@ -242,12 +296,14 @@ public class BasicMonitorV2PerformanceTests {
 	}
 
 	public static void main(String... args) throws InterruptedException {
-		SmallAbort();
-		MediumAbort();
-		LargeAbort();
-		SmallNormalIncrement();
-		LargeNormalIncrement();
-		SmallCustomIncrement();
+//		SmallAbort();
+//		MediumAbort();
+//		LargeAbort();
+//		SmallNormalIncrement();
+//		MediumNormalIncrement();
+//		LargeNormalIncrement();
+//		SmallCustomIncrement();
+//		MediumCustomIncrement();
 		LargeCustomIncrement();
 	}
 }
