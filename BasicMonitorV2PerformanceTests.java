@@ -296,6 +296,7 @@ public class BasicMonitorV2PerformanceTests {
 	}
 
 	public static void main(String... args) throws InterruptedException {
+		//comment out all but the desired test to avoid incorrect memory measurements
 //		SmallAbort();
 //		MediumAbort();
 //		LargeAbort();
