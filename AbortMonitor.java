@@ -7,14 +7,14 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class BasicMonitorV2 {
+public class AbortMonitor {
 
     private ReentrantLock lock;
     private Thread owner;
     private Object currentState;
     private HashMap<Thread, Object> revertStates;
     
-    public BasicMonitorV2(Object obj){
+    public AbortMonitor(Object obj){
         currentState = obj;
         revertStates = new HashMap<Thread, Object>();
         owner = null;

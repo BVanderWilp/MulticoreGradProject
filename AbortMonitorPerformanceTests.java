@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
-public class BasicMonitorV2PerformanceTests {
+public class AbortMonitorPerformanceTests {
 
 	public static class SmallAbortThread extends Thread {
-		BasicMonitorV2 myMonitor;
+		AbortMonitor myMonitor;
 
 		public void run() {
 			myMonitor.Aquire();
@@ -17,25 +17,25 @@ public class BasicMonitorV2PerformanceTests {
 	 * @throws InterruptedException
 	 */
 	public static void SmallAbort() throws InterruptedException {
-		long startmem = Runtime.getRuntime().freeMemory();
+//		long startmem = Runtime.getRuntime().freeMemory();
 		ArrayList<String> arr = new ArrayList<String>();
 		for (int i = 0; i < 10; i++) {
 			arr.add("foo");
 		}
-		BasicMonitorV2 myMonitor = new BasicMonitorV2(arr);
+		AbortMonitor myMonitor = new AbortMonitor(arr);
 		SmallAbortThread t = new SmallAbortThread();
 		t.myMonitor = myMonitor;
 		long start = System.nanoTime();
 		t.start();
 		t.join();
 		long end = System.nanoTime();
-		long endmem = Runtime.getRuntime().freeMemory();
+//		long endmem = Runtime.getRuntime().freeMemory();
 		System.out.printf("Time for small abort: %dms\n", (end - start) / (1000000));
-		System.out.printf("Memory used in Small Abort: %d kB\n", (startmem - endmem) / 1000);
+//		System.out.printf("Memory used in Small Abort: %d kB\n", (startmem - endmem) / 1000);
 	}
 
 	public static class MediumAbortThread extends Thread {
-		BasicMonitorV2 myMonitor;
+		AbortMonitor myMonitor;
 
 		public void run() {
 			myMonitor.Aquire();
@@ -49,25 +49,25 @@ public class BasicMonitorV2PerformanceTests {
 	 * @throws InterruptedException
 	 */
 	public static void MediumAbort() throws InterruptedException {
-		long startmem = Runtime.getRuntime().freeMemory();
+//		long startmem = Runtime.getRuntime().freeMemory();
 		ArrayList<String> arr = new ArrayList<String>();
 		for (int i = 0; i < 10000; i++) {
 			arr.add("foo");
 		}
-		BasicMonitorV2 myMonitor = new BasicMonitorV2(arr);
+		AbortMonitor myMonitor = new AbortMonitor(arr);
 		SmallAbortThread t = new SmallAbortThread();
 		t.myMonitor = myMonitor;
 		long start = System.nanoTime();
 		t.start();
 		t.join();
 		long end = System.nanoTime();
-		long endmem = Runtime.getRuntime().freeMemory();
+//		long endmem = Runtime.getRuntime().freeMemory();
 		System.out.printf("Time for medium abort: %dms\n", (end - start) / (1000000));
-		System.out.printf("Memory used in Medium Abort: %d kB\n", (startmem - endmem) / 1000);
+//		System.out.printf("Memory used in Medium Abort: %d kB\n", (startmem - endmem) / 1000);
 	}
 
 	public static class LargeAbortThread extends Thread {
-		BasicMonitorV2 myMonitor;
+		AbortMonitor myMonitor;
 
 		public void run() {
 			myMonitor.Aquire();
@@ -81,23 +81,23 @@ public class BasicMonitorV2PerformanceTests {
 	 * @throws InterruptedException
 	 */
 	public static void LargeAbort() throws InterruptedException {
-		long startmem = Runtime.getRuntime().freeMemory();
+//		long startmem = Runtime.getRuntime().freeMemory();
 		ArrayList<String> arr = new ArrayList<String>();
 		for (int i = 0; i < 10000000; i++) // Any larger and we run out of heap
 											// space
 		{
 			arr.add("foo");
 		}
-		BasicMonitorV2 myMonitor = new BasicMonitorV2(arr);
+		AbortMonitor myMonitor = new AbortMonitor(arr);
 		SmallAbortThread t = new SmallAbortThread();
 		t.myMonitor = myMonitor;
 		long start = System.nanoTime();
 		t.start();
 		t.join();
 		long end = System.nanoTime();
-		long endmem = Runtime.getRuntime().freeMemory();
+//		long endmem = Runtime.getRuntime().freeMemory();
 		System.out.printf("Time for large abort: %dms\n", (end - start) / (1000000));
-		System.out.printf("Memory used in Large Abort: %d kB\n", (startmem - endmem) / 1000);
+//		System.out.printf("Memory used in Large Abort: %d kB\n", (startmem - endmem) / 1000);
 	}
 
 	public static class NormalIncrementThread extends Thread {
@@ -118,7 +118,7 @@ public class BasicMonitorV2PerformanceTests {
 	 * @throws InterruptedException
 	 */
 	public static void SmallNormalIncrement() throws InterruptedException {
-		long startmem = Runtime.getRuntime().freeMemory();
+//		long startmem = Runtime.getRuntime().freeMemory();
 		ArrayList<NormalIncrementThread> arr = new ArrayList<NormalIncrementThread>();
 		Integer P = new Integer(0);
 		for (int i = 0; i < 10; i++) {
@@ -135,9 +135,9 @@ public class BasicMonitorV2PerformanceTests {
 			t.join();
 		}
 		long end = System.nanoTime();
-		long endmem = Runtime.getRuntime().freeMemory();
+//		long endmem = Runtime.getRuntime().freeMemory();
 		System.out.printf("Time for Small Normal Increment: %dms\n", (end - start) / (1000000));
-		System.out.printf("Memory used in Small Normal Increment: %d kB\n", (startmem - endmem) / 1000);
+//		System.out.printf("Memory used in Small Normal Increment: %d kB\n", (startmem - endmem) / 1000);
 	}
 
 	/**
@@ -145,7 +145,7 @@ public class BasicMonitorV2PerformanceTests {
 	 * @throws InterruptedException
 	 */
 	public static void MediumNormalIncrement() throws InterruptedException {
-		long startmem = Runtime.getRuntime().freeMemory();
+//		long startmem = Runtime.getRuntime().freeMemory();
 		ArrayList<NormalIncrementThread> arr = new ArrayList<NormalIncrementThread>();
 		Integer P = new Integer(0);
 		for (int i = 0; i < 10; i++) {
@@ -162,9 +162,9 @@ public class BasicMonitorV2PerformanceTests {
 			t.join();
 		}
 		long end = System.nanoTime();
-		long endmem = Runtime.getRuntime().freeMemory();
+//		long endmem = Runtime.getRuntime().freeMemory();
 		System.out.printf("Time for Medium Normal Increment: %dms\n", (end - start) / (1000000));
-		System.out.printf("Memory used in Medium Normal Increment: %d kB\n", (startmem - endmem) / 1000);
+//		System.out.printf("Memory used in Medium Normal Increment: %d kB\n", (startmem - endmem) / 1000);
 	}
 	
 	/**
@@ -172,7 +172,7 @@ public class BasicMonitorV2PerformanceTests {
 	 * @throws InterruptedException
 	 */
 	public static void LargeNormalIncrement() throws InterruptedException {
-		long startmem = Runtime.getRuntime().freeMemory();
+//		long startmem = Runtime.getRuntime().freeMemory();
 		ArrayList<NormalIncrementThread> arr = new ArrayList<NormalIncrementThread>();
 		Integer P = new Integer(0);
 		for (int i = 0; i < 10; i++) {
@@ -189,13 +189,13 @@ public class BasicMonitorV2PerformanceTests {
 			t.join();
 		}
 		long end = System.nanoTime();
-		long endmem = Runtime.getRuntime().freeMemory();
+//		long endmem = Runtime.getRuntime().freeMemory();
 		System.out.printf("Time for Large Normal Increment: %dms\n", (end - start) / (1000000));
-		System.out.printf("Memory used in Large Normal Increment: %d kB\n", (startmem - endmem) / 1000);
+//		System.out.printf("Memory used in Large Normal Increment: %d kB\n", (startmem - endmem) / 1000);
 	}
 
 	public static class CustomIncrementThread extends Thread {
-		BasicMonitorV2 P;
+		AbortMonitor P;
 		int max;
 
 		public void run() {
@@ -219,9 +219,9 @@ public class BasicMonitorV2PerformanceTests {
 	 * @throws InterruptedException
 	 */
 	public static void SmallCustomIncrement() throws InterruptedException {
-		long startmem = Runtime.getRuntime().freeMemory();
+//		long startmem = Runtime.getRuntime().freeMemory();
 		ArrayList<CustomIncrementThread> arr = new ArrayList<CustomIncrementThread>();
-		BasicMonitorV2 P = new BasicMonitorV2(new Integer(0));
+		AbortMonitor P = new AbortMonitor(new Integer(0));
 		for (int i = 0; i < 10; i++) {
 			CustomIncrementThread t = new CustomIncrementThread();
 			t.P = P;
@@ -236,9 +236,9 @@ public class BasicMonitorV2PerformanceTests {
 			t.join();
 		}
 		long end = System.nanoTime();
-		long endmem = Runtime.getRuntime().freeMemory();
+//		long endmem = Runtime.getRuntime().freeMemory();
 		System.out.printf("Time for Small Custom Increment: %dms\n", (end - start) / (1000000));
-		System.out.printf("Memory used in Small Custom Increment: %d kB\n", (startmem - endmem) / 1000);
+//		System.out.printf("Memory used in Small Custom Increment: %d kB\n", (startmem - endmem) / 1000);
 	}
 	
 	/**
@@ -246,9 +246,9 @@ public class BasicMonitorV2PerformanceTests {
 	 * @throws InterruptedException
 	 */
 	public static void MediumCustomIncrement() throws InterruptedException {
-		long startmem = Runtime.getRuntime().freeMemory();
+//		long startmem = Runtime.getRuntime().freeMemory();
 		ArrayList<CustomIncrementThread> arr = new ArrayList<CustomIncrementThread>();
-		BasicMonitorV2 P = new BasicMonitorV2(new Integer(0));
+		AbortMonitor P = new AbortMonitor(new Integer(0));
 		for (int i = 0; i < 10; i++) {
 			CustomIncrementThread t = new CustomIncrementThread();
 			t.P = P;
@@ -263,9 +263,9 @@ public class BasicMonitorV2PerformanceTests {
 			t.join();
 		}
 		long end = System.nanoTime();
-		long endmem = Runtime.getRuntime().freeMemory();
+//		long endmem = Runtime.getRuntime().freeMemory();
 		System.out.printf("Time for Medium Custom Increment: %dms\n", (end - start) / (1000000));
-		System.out.printf("Memory used in Medium Custom Increment: %d kB\n", (startmem - endmem) / 1000);
+//		System.out.printf("Memory used in Medium Custom Increment: %d kB\n", (startmem - endmem) / 1000);
 	}
 	
 	/**
@@ -273,9 +273,9 @@ public class BasicMonitorV2PerformanceTests {
 	 * @throws InterruptedException
 	 */
 	public static void LargeCustomIncrement() throws InterruptedException {
-		long startmem = Runtime.getRuntime().freeMemory();
+//		long startmem = Runtime.getRuntime().freeMemory();
 		ArrayList<CustomIncrementThread> arr = new ArrayList<CustomIncrementThread>();
-		BasicMonitorV2 P = new BasicMonitorV2(new Integer(0));
+		AbortMonitor P = new AbortMonitor(new Integer(0));
 		for (int i = 0; i < 10; i++) {
 			CustomIncrementThread t = new CustomIncrementThread();
 			t.P = P;
@@ -290,9 +290,9 @@ public class BasicMonitorV2PerformanceTests {
 			t.join();
 		}
 		long end = System.nanoTime();
-		long endmem = Runtime.getRuntime().freeMemory();
+//		long endmem = Runtime.getRuntime().freeMemory();
 		System.out.printf("Time for Large Custom Increment: %dms\n", (end - start) / (1000000));
-		System.out.printf("Memory used in Large Custom Increment: %d kB\n", (startmem - endmem) / 1000);
+//		System.out.printf("Memory used in Large Custom Increment: %d kB\n", (startmem - endmem) / 1000);
 	}
 
 	public static void main(String... args) throws InterruptedException {

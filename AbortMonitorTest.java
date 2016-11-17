@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-public class BasicMonitorV2Test {
+public class AbortMonitorTest {
 
 	/**
 	 * Acquires lock, writes foo, waits, then aborts
@@ -12,7 +12,7 @@ public class BasicMonitorV2Test {
 	 *
 	 */
 	public static class Thread1A extends Thread{
-		public BasicMonitorV2 myMonitor;
+		public AbortMonitor myMonitor;
 		public void run(){
 			myMonitor.Aquire();
 			myMonitor.Write("foo");
@@ -35,7 +35,7 @@ public class BasicMonitorV2Test {
 	 *
 	 */
 	public static class Thread1B extends Thread{
-		public BasicMonitorV2 myMonitor;
+		public AbortMonitor myMonitor;
 		public void run(){
 			myMonitor.Aquire();
 			myMonitor.Write("bar");
@@ -54,7 +54,7 @@ public class BasicMonitorV2Test {
 	@Test public void Test1() throws InterruptedException
 	{
 		String foo = "";
-		BasicMonitorV2 myMonitor = new BasicMonitorV2(foo);
+		AbortMonitor myMonitor = new AbortMonitor(foo);
 		myMonitor.Aquire();
 		assertEquals(myMonitor.read(), "");
 		myMonitor.Release();
@@ -77,7 +77,7 @@ public class BasicMonitorV2Test {
 	}
 	
 	public static class Thread2A extends Thread{
-		public BasicMonitorV2 myMonitor;
+		public AbortMonitor myMonitor;
 		public void run(){
 			myMonitor.Aquire();
 			myMonitor.Write("foo");
@@ -92,7 +92,7 @@ public class BasicMonitorV2Test {
 	@Test public void Test2() throws InterruptedException
 	{
 		String foo = "";
-		BasicMonitorV2 myMonitor = new BasicMonitorV2(foo);
+		AbortMonitor myMonitor = new AbortMonitor(foo);
 		myMonitor.Aquire();
 		assertEquals(myMonitor.read(), "");
 		myMonitor.Release();
@@ -110,14 +110,14 @@ public class BasicMonitorV2Test {
 	public void Test3() throws InterruptedException
 	{
 		String foo = "";
-		BasicMonitorV2 myMonitor = new BasicMonitorV2(foo);
+		AbortMonitor myMonitor = new AbortMonitor(foo);
 		
 		myMonitor.Write("foo");
 		
 	}
 	
 	public static class Thread4A extends Thread{
-		public BasicMonitorV2 myMonitor;
+		public AbortMonitor myMonitor;
 		public ArrayList<String> fooList;
 		public void run(){
 			myMonitor.Aquire();
@@ -135,7 +135,7 @@ public class BasicMonitorV2Test {
 	@Test public void Test4() throws InterruptedException
 	{
 		ArrayList<String> fooList = new ArrayList<String>();
-		BasicMonitorV2 myMonitor = new BasicMonitorV2(fooList);
+		AbortMonitor myMonitor = new AbortMonitor(fooList);
 		myMonitor.Aquire();
 		fooList.add("bar1");
 		myMonitor.Write(fooList);
@@ -154,7 +154,7 @@ public class BasicMonitorV2Test {
 	}
 	
 	public static class Thread5A extends Thread{
-		public BasicMonitorV2 myMonitor;
+		public AbortMonitor myMonitor;
 		public void run(){
 			myMonitor.Aquire();
 			ArrayList<String> fooList = (ArrayList<String>) myMonitor.read();
@@ -173,7 +173,7 @@ public class BasicMonitorV2Test {
 	@Test public void Test5() throws InterruptedException
 	{
 		ArrayList<String> fooList = new ArrayList<String>();
-		BasicMonitorV2 myMonitor = new BasicMonitorV2(fooList);
+		AbortMonitor myMonitor = new AbortMonitor(fooList);
 		myMonitor.Aquire();
 		fooList.add("bar1");
 		myMonitor.Write(fooList);
@@ -191,7 +191,7 @@ public class BasicMonitorV2Test {
 	}
 	
 	public static class Thread6A extends Thread{
-		public BasicMonitorV2 myMonitor;
+		public AbortMonitor myMonitor;
 		public void run(){
 			myMonitor.Aquire();
 			ArrayList<ArrayList<String>> fooList = (ArrayList<ArrayList<String>>) myMonitor.read();
@@ -213,7 +213,7 @@ public class BasicMonitorV2Test {
 	@Test public void Test6() throws InterruptedException
 	{
 		ArrayList<ArrayList<String>> fooList = new ArrayList<ArrayList<String>>();
-		BasicMonitorV2 myMonitor = new BasicMonitorV2(fooList);
+		AbortMonitor myMonitor = new AbortMonitor(fooList);
 		myMonitor.Aquire();
 		fooList.add(new ArrayList<String>());
 		myMonitor.Write(fooList);
